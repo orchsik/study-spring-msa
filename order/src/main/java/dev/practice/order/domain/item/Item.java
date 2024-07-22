@@ -41,7 +41,7 @@ public class Item extends AbstractEntity {
         if (StringUtils.isBlank(itemName)) throw new InvalidParamException("Item.itemName");
         if (itemPrice == null) throw new InvalidParamException("Item.itemPrice");
 
-        this.itemToken = TokenGenerator.randomCharacterWithRrefix(PREFIX_ITEM);
+        this.itemToken = TokenGenerator.randomCharacterWithPrefix(PREFIX_ITEM);
         this.partnerId = partnerId;
         this.itemName = itemName;
         this.itemPrice = itemPrice;

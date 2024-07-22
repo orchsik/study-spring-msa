@@ -9,7 +9,7 @@ public class TokenGenerator {
         return RandomStringUtils.random(length);
     }
 
-    public static String randomCharacterWithRrefix(String prefix) {
+    public static String randomCharacterWithPrefix(String prefix) {
         return prefix + randomCharacter(TOKEN_LENGTH - prefix.length());
     }
 
