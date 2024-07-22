@@ -1,6 +1,7 @@
 package dev.practice.order.domain.item;
 
 import dev.practice.order.common.exception.InvalidParamException;
+import dev.practice.order.domain.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 @Entity
 @NoArgsConstructor
 @Table(name = "item_options")
-public class ItemOption {
+public class ItemOption extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

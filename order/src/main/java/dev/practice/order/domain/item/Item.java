@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "items")
 public class Item extends AbstractEntity {
-    private static final String PREFIX_ITEM = "itm_";
+    private static final String ITEM_PREFIX = "itm_";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,6 @@ public class Item extends AbstractEntity {
     private String itemName;
     private Long itemPrice;
 
-    // Item : ItemOptionGroup = 1:N
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = CascadeType.PERSIST)
     private List<ItemOptionGroup> itemOptionGroupList = Lists.newArrayList();
 
@@ -41,8 +40,8 @@ public class Item extends AbstractEntity {
         if (StringUtils.isBlank(itemName)) throw new InvalidParamException("Item.itemName");
         if (itemPrice == null) throw new InvalidParamException("Item.itemPrice");
 
-        this.itemToken = TokenGenerator.randomCharacterWithPrefix(PREFIX_ITEM);
         this.partnerId = partnerId;
+        this.itemToken = TokenGenerator.randomCharacterWithPrefix(ITEM_PREFIX);
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.status = Status.PREPARE;
@@ -56,10 +55,9 @@ public class Item extends AbstractEntity {
         this.status = Status.END_OF_SALE;
     }
 
-    public void availableSales() {
-        this.status = Status.PREPARE;
+    public boolean availableSales() {
+        return this.status == Status.ON_SALE;
     }
-
 
     @Getter
     @RequiredArgsConstructor
