@@ -12,40 +12,19 @@ public class ItemServiceImpl implements ItemService {
     private final PartnerReader partnerReader;
     private final ItemStore itemStore;
     private final ItemReader itemReader;
-    private final ItemOptionGroupStore itemOptionGroupStore;
-    private final ItemOptionStore itemOptionStore;
+    private final ItemOptionSeriesFactory itemOptionSeriesFactory;
 
     @Override
     public String registerItem(ItemCommand.RegisterItemRequest command, String partnerToken) {
-        // 1. get partnerId
+        // 1. get partner
         var partner = partnerReader.getPartner(partnerToken);
-        var partnerId = partner.getId();
 
         // 2. item store
-        var initItem = command.toEntity(partnerId);
+        var initItem = command.toEntity(partner.getId());
         var item = itemStore.store(initItem);
 
         // 3. itemOptionGroup + itemOption store
-        command.getItemOptionGroupRequestList().forEach(requestItemOptionGroup -> {
-            // itemOptionGroup store
-            var initItemOptionGroup = ItemOptionGroup.builder()
-                    .item(item)
-                    .ordering(requestItemOptionGroup.getOrdering())
-                    .itemOptionGroupName(requestItemOptionGroup.getItemOptionGroupName())
-                    .build();
-            var itemOptionGroup = itemOptionGroupStore.store(initItemOptionGroup);
-
-            // itemOption store
-            requestItemOptionGroup.getItemOptionRequestList().forEach(requestItemOption -> {
-                var initItemOption = ItemOption.builder()
-                        .itemOptionGroup(itemOptionGroup)
-                        .ordering(requestItemOption.getOrdering())
-                        .itemOptionName(requestItemOption.getItemOptionName())
-                        .itemOptionPrice(requestItemOption.getItemOptionPrice())
-                        .build();
-                itemOptionStore.store(initItemOption);
-            });
-        });
+        itemOptionSeriesFactory.store(command, item);
 
         // 4. return itemToken
         return item.getItemToken();
