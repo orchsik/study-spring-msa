@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
+@Getter
 @Entity
 @NoArgsConstructor
 @Table(name = "items")
@@ -47,16 +48,16 @@ public class Item extends AbstractEntity {
         this.status = Status.PREPARE;
     }
 
-    public void changePrepare() {
+    public void changeOnSale() {
+        this.status = Status.ON_SALE;
+    }
+
+    public void changeEndOfSale() {
+        this.status = Status.END_OF_SALE;
+    }
+
+    public void availableSales() {
         this.status = Status.PREPARE;
-    }
-
-    public void chaneOnSales() {
-        this.status = Status.ON_SALES;
-    }
-
-    public void endOfSales() {
-        this.status = Status.END_OF_SALES;
     }
 
 
@@ -64,8 +65,8 @@ public class Item extends AbstractEntity {
     @RequiredArgsConstructor
     public enum Status {
         PREPARE("판매준비중"),
-        ON_SALES("판매중"),
-        END_OF_SALES("판매종료");
+        ON_SALE("판매중"),
+        END_OF_SALE("판매종료");
 
         private final String description;
     }
