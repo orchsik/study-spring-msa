@@ -76,6 +76,13 @@ public class Order extends AbstractEntity {
         this.status = Status.ORDER_COMPLETE;
     }
 
+    public boolean isAlreadyPaymentComplete() {
+        return switch (this.status) {
+            case ORDER_COMPLETE, DELIVERY_PREPARE, IN_DELIVERY, DELIVERY_COMPLETE -> true;
+            default -> false;
+        };
+    }
+
     @Getter
     @RequiredArgsConstructor
     public enum Status {
