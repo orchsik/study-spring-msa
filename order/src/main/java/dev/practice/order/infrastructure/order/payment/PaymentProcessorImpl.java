@@ -17,7 +17,6 @@ import java.util.List;
 public class PaymentProcessorImpl implements PaymentProcessor {
     private final List<PaymentValidator> paymentValidatorList;
     private final List<PaymentApiCaller> paymentApiCallerList;
-    ;
 
     @Override
     public void pay(Order order, OrderCommand.PaymentRequest paymentRequest) {
