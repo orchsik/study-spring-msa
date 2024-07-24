@@ -15,8 +15,8 @@ import java.util.List;
 public interface OrderInfoMapper {
 
     @Mappings({
-            @Mapping(source = "id", target = "orderId"),
-            @Mapping(source = "deliveryFragment", target = "deliveryInfo"),
+            @Mapping(source = "order.id", target = "orderId"),
+            @Mapping(source = "order.deliveryFragment", target = "deliveryInfo"),
             @Mapping(expression = "java(order.calculateTotalAmount())", target = "totalAmount"),
             @Mapping(expression = "java(order.getStatus().name())", target = "status"),
             @Mapping(expression = "java(order.getStatus().getDescription())", target = "statusDescription")
